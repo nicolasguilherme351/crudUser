@@ -18,32 +18,37 @@ import com.example.crudUser.services.UserService;
 
 @RestController
 @RequestMapping(value = "/users")
+// This controller handles CRUD for the User table.
 public class UserController {
 
 	@Autowired
 	private UserService service;
-	
-	@GetMapping
-	public ResponseEntity<List<User>> findAll() {
-		List<User> list = service.findAll();
-		return ResponseEntity.ok().body(list);
-	}
-	
-	@PostMapping(value = "/insert/{name}/{email}/{age}/{password}")
+
+	// C(Create)	
+	@PostMapping(value = "insertNewUser/{name}/{email}/{age}/{password}")
 	public  ResponseEntity<User> insert(@PathVariable String name, @PathVariable String email, @PathVariable int age, @PathVariable String password) {
 		User user = new User(null, name, email, age, password);
 		service.addUser(user);
 		return ResponseEntity.ok().body(user);
 	}
 	
-	@DeleteMapping("/{id}")
-	public void insert(@PathVariable Long id) {
-		service.deleteUser(id);
+	// R(Read)		
+	@GetMapping
+	public ResponseEntity<List<User>> findAll() {
+		List<User> list = service.findAll();
+		return ResponseEntity.ok().body(list);
 	}
 	
-	@PutMapping("path/{id}/{name}")
+	// U(Update)
+	@PutMapping("updateNameUser/{id}/{name}")
 	public User updateNameById(@PathVariable Long id, @PathVariable String name) {
 		return service.updateNameById(name, id);
+	}
+	
+	// D(Delete)
+	@DeleteMapping("deleteById/{id}")
+	public void insert(@PathVariable Long id) {
+		service.deleteUser(id);
 	}
 	
 }
