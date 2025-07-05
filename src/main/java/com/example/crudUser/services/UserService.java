@@ -1,6 +1,7 @@
 package com.example.crudUser.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,4 +27,15 @@ public class UserService {
 	public void deleteUser(Long id) {
 		userRepository.deleteById(id);
 	}
+	
+	public Optional<User> findById(Long id) {
+		return userRepository.findById(id);
+	}
+	
+	public User updateNameById(String name, Long id) {
+		User user = userRepository.findById(id).get();
+		user.setName(name);
+		return userRepository.save(user);
+	}
+	
 }
